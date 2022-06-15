@@ -18,17 +18,30 @@ export default {
     }
   },
   components: {Nav},
+  methods: {
+    checkRoute(){
+      if(this.$route.name === "Home") {
+        this.isHome = true
+      } else {
+        this.isHome = false
+      }
+    }
+  },
+  mounted () {
+    this.checkRoute()
+  },
   watch:{
   '$route' (){
-      if(this.$route.name !== "Home") this.isHome = false
+      this.checkRoute()
     }
   },
 }
 </script>
 
 <style lang="scss">
-  // Import Roboto globally.
+  // Import Roboto globally. ( I always keep my font imports seperate, incase they need swapping etc )
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600&display=swap');
 
   html {
       height: 100%;
@@ -51,6 +64,7 @@ export default {
     min-height: 100%;
     height: auto;
     width: 100%;
+    position: relative;
 
     .main-body-content {
       display: flex;

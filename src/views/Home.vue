@@ -2,8 +2,10 @@
   <div class="home">
     <div class="mainContent">
       <h1>VueMyCocktails</h1>
-      <p>{{subText}}</p>
-      <Search :expanded="false"></Search>
+      <p>"{{subText}}"</p>
+      <div class="searchWrapper">
+        <Search :expanded="false"></Search>
+      </div>
     </div>
   </div>
 </template>
@@ -70,11 +72,21 @@ export default {
       color: #fff;
 
       h1 {
+        font-family: 'Dancing Script', cursive;
         font-size: 40pt;
         cursor: default;
         font-weight: 900;
         text-shadow: 0 3px 6px rgba(0,0,0,0.9);
-      }    
+        margin-bottom: 0;
+      }
+      p {
+        font-size: 14pt;
+      }
+    }
+
+    .searchWrapper {
+      width: 600px;
+      margin: auto;
     }
   }
 </style>
