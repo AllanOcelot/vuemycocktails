@@ -2,13 +2,13 @@
 <div class="drinkCard" v-if="item" :class="{'single' : single}">
   <div class="drinkImage" :style="{ backgroundImage: 'url(' + item.strDrinkThumb + ')' }">
     <b-button v-if="!favouritesList.includes(item.idDrink)" @click="toggleFave('add')">
-      <BIconBookmarkStar></BIconBookmarkStar>
+      <BIconBookmarkStar />
       <span v-if="single">
         Add to favourites!
       </span>
     </b-button>
     <b-button v-else @click="toggleFave('remove')" class="inFavourites">
-      <BIconBookmarkStarFill></BIconBookmarkStarFill>
+      <BIconBookmarkStarFill />
       <span v-if="single">
         Remove from favourites!
       </span>
@@ -35,6 +35,29 @@
         Updated:
         <span>{{item.dateModified | humanTime}}</span>
       </p>
+    </div>
+    <div class="additionalDetails ingredients" v-if="single">
+      <h3>Ingredients:</h3>
+      <p v-if="item.strIngredient1">
+        {{item.strIngredient1}} :
+        <span v-if="item.strMeasure1">{{item.strMeasure1}}</span>
+      </p>
+      <p v-if="item.strIngredient2">
+        {{item.strIngredient2}} :
+        <span v-if="item.strMeasure2">{{item.strMeasure2}}</span>
+      </p>
+      <p v-if="item.strIngredient3">
+        {{item.strIngredient3}} :
+        <span v-if="item.strMeasure3">{{item.strMeasure3}}</span>
+      </p>
+      <p v-if="item.strIngredient4">
+        {{item.strIngredient4}} :
+        <span v-if="item.strMeasure4">{{item.strMeasure4}}</span>
+      </p>
+      <p v-if="item.strIngredient5">
+        {{item.strIngredient5}} :
+        <span v-if="item.strMeasure5">{{item.strMeasure5}}</span>
+      </p>    
     </div>
     <div class="instructions" v-if="single && item.strInstructions">
       <h3>Instructions:</h3>
@@ -77,7 +100,20 @@ export default {
       this.$store.dispatch(`favourites/${type}Item`, {
         object: this.item
       }).then(() => {
-        console.log('Added item to favourites in store.')
+        let toasterType = 'success'
+        let actionType  = 'Added'
+        if(type !== 'add'){
+            toasterType = 'warning'
+            actionType = 'Removed'
+        }
+
+        this.$bvToast.toast(`Cocktail ${actionType} in Favourites`, {
+          title: `${this.item.strDrink} ${actionType} in favourites`,
+          variant: toasterType,
+          toaster: 'b-toaster-bottom-center',
+          autoHideDelay: 2500,
+          appendToast: true
+        })
       })
     }
   }
@@ -139,6 +175,7 @@ export default {
   
   .additionalDetails {
     padding: 5px 20px;
+    margin: 0 0 10px 0;
     p {
       cursor: default;
       margin: 0 0 2px 0;
@@ -154,6 +191,11 @@ export default {
       }
       &:last-of-type{
         border-bottom: none;
+      }
+    }
+    &.ingredients {
+      h3 {
+        text-align: left;
       }
     }
   }

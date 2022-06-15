@@ -28,9 +28,6 @@ export default {
   },
   components: {PreLoader, DrinkCard},
   computed: {
-    favouritesList () {
-      return this.$store.getters['favourites/getFavouritesIDList']
-    },
     results () {
       const data = this.$store.getters['search/getResults'];
       if(data){
@@ -38,7 +35,6 @@ export default {
       }else{
         return []
       }
-
     }
   },
   mounted() {

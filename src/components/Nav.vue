@@ -6,11 +6,7 @@
 
 
     <div class="alignRight">
-      <b-nav>
-        <b-nav-item>Github</b-nav-item>
-        <b-nav-item>Designs</b-nav-item>
-      </b-nav>
-
+      <a href="https://github.com/AllanOcelot/vuemycocktails" target="_blank" class="github">View Source</a>
       <Favourites />
     </div>
 
@@ -68,8 +64,9 @@ export default {
       align-self: flex-end;
     }
 
-    .nav {
+    .github {
       color: #0C1E3B;
+      margin-right: 20px;
     }
 
     // inverted for dark display BG such as homepage.
@@ -85,12 +82,16 @@ export default {
 
   @media screen and (max-width: 650px){
     header {
-      padding-top: 10px;
+      padding: 20px 0 0 0;
       flex-direction: row;
       height: auto;
       position: relative;
+      #logo {
+        line-height: 35px;
+        margin-right: 10px;
+      }
       .alignRight {
-        .nav {
+        .github {
           display: none;
         }
       }

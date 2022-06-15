@@ -9,9 +9,9 @@
         :class="{'invalidInput': !searchStringValid}"
         autocomplete="off"
       ></b-form-input>
-      <span class="iconSearch">
+      <button type="submit" class="iconSearch">
         <BIconSearch></BIconSearch>
-      </span>
+      </button>
 
       <p v-if="!searchStringValid" class="invalidInput">
         Search too short...
@@ -106,8 +106,10 @@ export default {
       font-size: 22pt;
       color: #101010;
       opacity: 0.5;
-      line-height: 50px;
+      line-height: 45px;
       cursor: pointer;
+      background: none;
+      border: none;
       transition: all 0.3s;
       &:hover{
         color: #447AC1;
