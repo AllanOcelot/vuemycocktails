@@ -1,15 +1,10 @@
 <template>
   <div class="drinks">
-    <PreLoader :data="results" />
+    <PreLoader :data="results"/>
     <div class="main" v-if="results.length > 0">
-      <h1 v-if="results">Showing {{results.length}} Results For '{{searchTerm}}'</h1>
       <div class="mainContent">
-        <div class="drinkContainer"
-          v-for="(item, index) in results"
-          :key="index"
-        >
-          <DrinkCard :item="item"></DrinkCard>
-        </div>
+        <DrinkCard :item="results[0]" :single="true"></DrinkCard>
+        <p class="homeLink">Not your style, try <router-link to="/">Something Different...</router-link></p>
       </div>
     </div>
   </div>
@@ -20,35 +15,33 @@ import PreLoader from '@/components/PreLoader.vue'
 import DrinkCard from '@/components/DrinkCard.vue'
 
 export default {
-  name: 'Drinks',
+  name: 'Drink',
   data () {
     return {
-      searchTerm: '',
+      results: [],
     }
   },
   components: {PreLoader, DrinkCard},
-  computed: {
-    favouritesList () {
-      return this.$store.getters['favourites/getFavouritesIDList']
-    },
-    results () {
-      const data = this.$store.getters['search/getResults'];
-      if(data){
-        return data
-      }else{
-        return []
-      }
-
-    }
-  },
-  mounted() {
-    this.searchTerm = this.$route.params.searchterm
+  async mounted() {
+    this.results = await this.drinkLookup(this.$route.params.drinkID)
   },
   watch:{
   '$route' (){
-      this.searchTerm = this.$route.params.searchterm
+      this.results = this.drinkLookup(this.$route.params.drinkID)
     }
   },
+  methods: {
+    async drinkLookup(ID){
+      let data = await this.$store.dispatch('search/searchID', { Id: ID })
+      if(data){
+        console.log(data)
+        return data.data.drinks
+      }else{
+        return []
+      }
+      
+    }
+  }
 }
 </script>
 
@@ -58,6 +51,8 @@ export default {
     background: #f1f1f1;
     flex-grow: 1;
     padding-top: 60px;
+    align-items: center;
+    justify-content: center;
   }
 
   .preloader {
@@ -93,20 +88,22 @@ export default {
       padding: 20px;
       justify-content: center;
     }
+    p.homeLink {
+      margin: 20px auto;
+      width: 100%;
+      a {
+        opacity: 0.8;
+        text-decoration: underline;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
   }
 
   @media screen and (max-width: 650px){
     .drinks {
-      padding: 20px 0;
-      .main {
-        h1 {
-          padding: 0 20px;
-          font-size: 30pt;
-        }
-      }
-      .mainContent .drinkContainer {
-        flex-basis: 100%;
-      }
+      padding: 40px 0;
     }
   }
 

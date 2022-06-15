@@ -1,34 +1,50 @@
 <template>
-<div class="drinkCard" v-if="item">
+<div class="drinkCard" v-if="item" :class="{'single' : single}">
   <div class="drinkImage" :style="{ backgroundImage: 'url(' + item.strDrinkThumb + ')' }">
-    <b-button v-if="!favouritesList.includes(item.idDrink)" @click="toggleFave('add', index)">
+    <b-button v-if="!favouritesList.includes(item.idDrink)" @click="toggleFave('add')">
       <BIconBookmarkStar></BIconBookmarkStar>
+      <span v-if="single">
+        Add to favourites!
+      </span>
     </b-button>
-    <b-button v-else @click="toggleFave('remove', index)" class="inFavourites">
+    <b-button v-else @click="toggleFave('remove')" class="inFavourites">
       <BIconBookmarkStarFill></BIconBookmarkStarFill>
+      <span v-if="single">
+        Remove from favourites!
+      </span>
     </b-button>
   </div>
-  <p class="title">
-    {{item.strDrink}}
-  </p>
-  <div class="additionalDetails">
-    <p>
-      Category:
-      <span>{{item.strCategory}}</span>
+  <div class="content">
+    <p class="title">
+      {{item.strDrink}}
     </p>
-    <p>
-      Alcoholic:
-      <span>{{item.strAlcoholic}}</span>
-    </p>
-    <p>
-      Glass:
-      <span>{{item.strGlass}}</span>
-    </p>
-  </div>
-  <div class="actions">
-    <b-button :to="`/drink/${item.idDrink}`" class="readMore">
-      View Drink
-    </b-button>
+    <div class="additionalDetails">
+      <p>
+        Category:
+        <span>{{item.strCategory}}</span>
+      </p>
+      <p>
+        Alcoholic:
+        <span>{{item.strAlcoholic}}</span>
+      </p>
+      <p>
+        Glass:
+        <span>{{item.strGlass}}</span>
+      </p>
+      <p>
+        Updated:
+        <span>{{item.dateModified | humanTime}}</span>
+      </p>
+    </div>
+    <div class="instructions" v-if="single && item.strInstructions">
+      <h3>Instructions:</h3>
+      <p>{{item.strInstructions}}</p>
+    </div>
+    <div class="actions" v-if="!single">
+      <b-button :to="`/drink/${item.idDrink}`" class="readMore">
+        View Drink
+      </b-button>
+    </div>
   </div>
 </div>
 </template>
@@ -40,11 +56,19 @@ export default {
   name: 'Drinks',
   props: {
     item: Object,
-    index: Number,
+    single: Boolean,
   },
   computed: {
     favouritesList () {
       return this.$store.getters['favourites/getFavouritesIDList']
+    }
+  },
+  filters: {
+    // It's like human music, but time based...
+    humanTime: function (value) {
+      if (!value) return ''
+      value = new Date(value)
+      return value.toDateString()
     }
   },
   components: {BIconBookmarkStar, BIconBookmarkStarFill},
@@ -140,11 +164,65 @@ export default {
       font-size: 14pt;
       font-weight: 600;
       border: none;
-      opacity: 0.9;
+      opacity: 0.85;
+      transition: all 0.3s;
+      &:hover{
+        opacity: 1;
+        background: #98f998;
+      }
       &.readMore {
         border-radius: 0;
       }
     }
   }
+
+
+  // Single is used for the single product view.
+  &.single {
+    flex-direction: row;
+    max-width: 660px;
+    width: 660px;
+    border-radius: 15px;
+    .drinkImage {
+      width: 50%;
+      height: 100%;
+
+      .btn {
+        span {
+          margin-left: 5px;
+        }
+      }
+    }
+    .content {
+      width: 50%;
+
+      .title {
+        font-size: 30pt;
+      }
+
+      .instructions {
+        text-align: left;
+        padding: 20px;
+      }
+    }
+  }
+
+  // Standard size media q 
+  @media screen and (max-width: 650px){
+    &.single {
+      max-width: 90%;
+      width: 90%;
+      flex-direction: column;
+      .drinkImage {
+        width: 100%;
+        height: 200px;
+      }
+      .content {
+        width: 100%;
+      }
+    }
+  }
+
+
 }
 </style>

@@ -54,7 +54,7 @@ export default {
       favList: []
     }
   },
-    methods: {
+  methods: {
     async search(){
       if(this.form.mainSearch.length >= 3){
         this.searchStringValid = true
@@ -144,4 +144,14 @@ export default {
       }
     }
   }
+
+  @media screen and (max-width: 650px){
+    #mainSearch {
+      input {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+
 </style>

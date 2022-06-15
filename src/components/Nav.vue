@@ -11,30 +11,21 @@
         <b-nav-item>Designs</b-nav-item>
       </b-nav>
 
-      <b-dropdown text="Your Favourites" class="m-2">
-        <div class="dropdownItem">
-          <div class="example"></div>
-          <div class="content">
-            <p>Drink Name</p>
-
-          </div>
-        </div>
-        <b-dropdown-text>And this is more example text.</b-dropdown-text>
-        <b-dropdown-divider></b-dropdown-divider>
-        <b-dropdown-item-button>First item</b-dropdown-item-button>
-        <b-dropdown-item-button>Second Item</b-dropdown-item-button>
-      </b-dropdown>
+      <Favourites />
     </div>
 
   </header>
 </template>
 
 <script>
+import Favourites from '@/components/Favourites.vue'
+
 export default {
   name: 'Nav',
   props: {
     inverse: Boolean
-  }
+  },
+  components: {Favourites}
 }
 </script>
 
@@ -47,7 +38,7 @@ export default {
     flex-wrap: wrap;
     padding: 0 20px;
     background: #fff;
-    border-bottom: 1px solid #0C1E3B;
+    border-bottom: 1px solid #14294d52;
     position: fixed;
     height: 60px;
     left:0;
@@ -71,7 +62,6 @@ export default {
       transition: all 0.3s;
     }
 
-
     .alignRight{
       display: flex;
       align-items: center;
@@ -92,4 +82,19 @@ export default {
       }
     }
   }
+
+  @media screen and (max-width: 650px){
+    header {
+      padding-top: 10px;
+      flex-direction: row;
+      height: auto;
+      position: relative;
+      .alignRight {
+        .nav {
+          display: none;
+        }
+      }
+    }
+  }
+
 </style>

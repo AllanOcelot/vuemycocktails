@@ -48,6 +48,7 @@ export default {
     flex-grow: 1;
     align-items: center;
     justify-content: center;
+    padding-top: 60px;
 
     background-image: url('~@/assets/images/background_home.png');
     background-repeat: no-repeat;
@@ -89,4 +90,22 @@ export default {
       margin: auto;
     }
   }
+
+  @media screen and (max-width: 650px){
+    .home {
+      padding-top: 0;
+      .mainContent {
+        h1 {
+          font-size: 30pt;
+        }
+        p {
+          font-size: 12pt;
+        }
+      }
+      .searchWrapper {
+        width: 90%;
+      }
+    }
+  }
+
 </style>
